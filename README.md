@@ -1,3 +1,29 @@
+## Datos utilizados
+
+El análisis parte de dos conjuntos de datos:
+
+- `Customer Flight Activity`: contiene información mensual sobre la actividad de los clientes, como vuelos reservados, vuelos con acompañantes, distancia recorrida, puntos acumulados y puntos redimidos.
+- `Customer Loyalty History`: recoge información general de los clientes del programa de fidelización, como género, nivel educativo, estado civil, salario, provincia, tipo de tarjeta y fechas de alta o cancelación.
+
+
+
+## Estructura de los archivos
+
+Este repositorio está organizado de la siguiente forma:
+
+- En la carpeta 'files' se encuentran:
+    - los csv originales ('Customer Flight Activity' y 'Customer Loyalty History'), materia prima del análisis,
+    - El csv 'df_final_limpio', que es el csv con los datos limpios, transfromados y unificados de los csv originales.
+    - El csv 'df_clientes', con los datos limpios y transformados solo de los clientes, para facilitar el análisis.
+
+- Y la carpeta 'Analisis' está estructurada en 3 documentos:
+    1. El documento 01_EDA_limpieza_transformacion.ipynb, donde se ha realizado todo el proceso de exploración, limpieza y transformación.
+    2. El documento 02_analisis, donde se ha desarrollado todo el código y las visualizaciones para la realización del análisis
+    3. El documento 03_informe_resultados, con los gráficos y las explicaciones más relevantes y ordenadas, desarrollando las conclusiones del análisis
+
+
+
+
 ### Limpieza y preparación de los datos
 
 Durante la fase de limpieza se trabajó con dos tablas principales: una tabla de actividad de los clientes (`df_activity`) y una tabla con información general del programa de fidelización (`df_loyalty`).
@@ -28,6 +54,31 @@ Esta decisión se tomó porque la tabla final contiene información a nivel clie
 
 De este modo, las variables categóricas se analizaron desde `df_clientes`, evitando que los clientes con más meses registrados tuvieran más peso en el análisis. Para cada variable categórica se calcularon frecuencias absolutas y porcentajes, y se representaron mediante gráficos de barras para observar la distribución de clientes según género, nivel educativo, estado civil, tipo de tarjeta de fidelidad, tipo de inscripción y provincia.
 
-Además, para algunos análisis fue necesario agregar previamente la información mensual a nivel cliente. Por ejemplo, para estudiar si existían diferencias en el número de vuelos reservados según el nivel educativo, se calculó primero el total de vuelos reservados por cada cliente. Posteriormente, esta información se cruzó con la variable `education`, permitiendo comparar clientes únicos y no registros mensuales repetidos.
+### Análisis realizado
 
-A partir de esta tabla agregada se calcularon estadísticas descriptivas por nivel educativo, como el número de clientes, la media, la mediana, la desviación estándar, el mínimo y el máximo de vuelos reservados. También se utilizaron gráficos de barras y boxplots para comparar tanto las medidas centrales como la dispersión de los vuelos reservados en cada grupo educativo.
+El análisis exploratorio se estructuró en varios bloques:
+
+- análisis descriptivo de variables numéricas relacionadas con vuelos, distancia, puntos, salario y CLV;
+- análisis de variables categóricas a nivel cliente;
+- análisis de la distribución mensual de vuelos reservados para identificar posibles patrones estacionales;
+- análisis de la relación entre distancia recorrida y puntos acumulados;
+- análisis de la relación entre salario, CLV y vuelos reservados;
+- comparación del número de vuelos reservados según el nivel educativo de los clientes.
+
+
+### Conclusiones principales
+
+El análisis muestra que la actividad mensual de los clientes está muy concentrada en valores bajos o nulos, lo que refleja la existencia de muchos meses sin vuelos registrados. Al mismo tiempo, una minoría de registros presenta niveles de actividad mucho más altos, lo que genera distribuciones asimétricas y una elevada dispersión en variables como vuelos reservados, distancia y puntos acumulados.
+
+También se observa una relación positiva muy fuerte entre la distancia recorrida y los puntos acumulados, con una correlación cercana a 0,99. Esto indica que ambas variables evolucionan prácticamente en la misma dirección.
+
+En cuanto al perfil de los clientes, la base está equilibrada por género, pero concentrada en determinados niveles educativos, tipos de tarjeta, modalidades de inscripción y provincias.
+
+Respecto a las variables que podrían explicar una mayor reserva de vuelos, no se observa una relación clara entre salario y número de vuelos reservados. En cambio, la distribución mensual de reservas sí muestra un patrón estacional, con mayor actividad en los meses de verano y en diciembre.
+
+
+### Limitaciones
+
+La principal limitación del análisis está relacionada con la imputación de la variable `salary`. Al aplicar `IterativeImputer` únicamente sobre esta variable, los valores imputados se concentran en torno a un valor central, lo que puede reducir parcialmente la variabilidad real de los salarios.
+
+Además, el análisis es descriptivo y exploratorio, por lo que las relaciones observadas no deben interpretarse como relaciones causales.
