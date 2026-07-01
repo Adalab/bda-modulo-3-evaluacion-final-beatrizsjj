@@ -14,6 +14,20 @@ Antes de unir ambas tablas, se comprobó que no existieran duplicados en la tabl
 
 En cuanto a la gestión de valores nulos, se identificaron principalmente en la fecha de cancelación y en la variable `salary`. Los nulos de la fecha de cancelación se mantuvieron, ya que se interpretan como clientes que no han cancelado su pertenencia al programa de fidelización. Por tanto, en este caso el valor nulo no representa necesariamente ausencia de información, sino una condición relevante del cliente.
 
-La variable Salary presentaba valores nulos y algunos valores negativos, que no resultan coherentes con el significado de la variable. Por ello, los salarios negativos se transformaron previamente en valores nulos. Posteriormente, se aplicó IterativeImputer, siguiendo la metodología trabajada en clase, para imputar los valores ausentes.
+La variable `salary` presentaba valores nulos y algunos valores negativos, que no resultan coherentes con el significado de la variable. Por este motivo, los salarios negativos se transformaron previamente en valores nulos para tratarlos como datos ausentes.
 
-Al aplicar la imputación únicamente sobre la variable Salary, se observa una concentración de valores imputados en torno a la zona central de la distribución. Esta limitación se tiene en cuenta en la interpretación posterior, ya que el algoritmo no dispone de otras variables numéricas relevantes para estimar el salario con mayor variabilidad individual.
+Posteriormente, se aplicó `IterativeImputer`, siguiendo la metodología trabajada en clase, para imputar los valores ausentes de la variable `salary`. No obstante, dado que la imputación se realizó únicamente sobre esta variable, el algoritmo no disponía de otras variables predictoras con las que estimar el salario de forma más individualizada. Como consecuencia, se observa una concentración de los valores imputados en torno a la zona central de la distribución.
+
+Esta limitación se tiene en cuenta en la interpretación posterior, ya que el algoritmo no dispone de otras variables numéricas relevantes para estimar el salario con mayor variabilidad individual.
+
+### Preparación de tablas para el análisis
+
+Una vez realizada la unión de las tablas, se creó una tabla específica a nivel cliente (`df_clientes`) para analizar aquellas variables que describen características individuales de los usuarios, como `gender`, `education`, `marital_status`, `loyalty_card`, `enrollment_type`, `province` o `salary`.
+
+Esta decisión se tomó porque la tabla final contiene información a nivel cliente-mes, es decir, un mismo cliente puede aparecer varias veces, una por cada mes registrado. Por tanto, analizar variables propias del cliente directamente sobre la tabla mensual podría duplicar registros y distorsionar la distribución de estas variables.
+
+De este modo, las variables categóricas se analizaron desde `df_clientes`, evitando que los clientes con más meses registrados tuvieran más peso en el análisis. Para cada variable categórica se calcularon frecuencias absolutas y porcentajes, y se representaron mediante gráficos de barras para observar la distribución de clientes según género, nivel educativo, estado civil, tipo de tarjeta de fidelidad, tipo de inscripción y provincia.
+
+Además, para algunos análisis fue necesario agregar previamente la información mensual a nivel cliente. Por ejemplo, para estudiar si existían diferencias en el número de vuelos reservados según el nivel educativo, se calculó primero el total de vuelos reservados por cada cliente. Posteriormente, esta información se cruzó con la variable `education`, permitiendo comparar clientes únicos y no registros mensuales repetidos.
+
+A partir de esta tabla agregada se calcularon estadísticas descriptivas por nivel educativo, como el número de clientes, la media, la mediana, la desviación estándar, el mínimo y el máximo de vuelos reservados. También se utilizaron gráficos de barras y boxplots para comparar tanto las medidas centrales como la dispersión de los vuelos reservados en cada grupo educativo.
